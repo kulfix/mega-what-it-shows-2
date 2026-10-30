@@ -25,7 +25,7 @@
 
 <table>
   <thead>
-    <tr><th>problem</th><th>reports</th><th>tenants</th><th>came in by</th><th>seen</th><th>ticket</th></tr>
+    <tr><th>problem</th><th>reports</th><th>tenants</th><th>came in by</th><th>tagged as</th><th>seen</th><th>ticket</th></tr>
   </thead>
   <tbody>
     {#each t.rows as r (r.problem)}
@@ -35,6 +35,7 @@
         <td>{r.reports.length}</td>
         <td>{r.tenants}</td>
         <td class="small">{list(r.channels)}</td>
+        <td class="small">{list(r.taggedAs)}</td>
         <td class="small">{r.firstSeen} → {r.lastSeen}</td>
         <td>{#if url}<a href={url}>{issue(url)}</a>{:else}no ticket yet{/if}</td>
       </tr>

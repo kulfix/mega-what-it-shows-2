@@ -10,6 +10,7 @@ export type ProblemRow = {
   reports: Report[];
   tenants: number;
   channels: Record<string, number>;
+  taggedAs: Record<string, number>;
   firstSeen: string;
   lastSeen: string;
   // For the one-day row: where the desk files these reports, cause → count.
@@ -26,6 +27,7 @@ function row(problem: Problem, rs: Report[]): ProblemRow {
     reports: rs,
     tenants: new Set(rs.map((r) => r.tenant)).size,
     channels: tally(rs, (r) => r.channel),
+    taggedAs: tally(rs, (r) => r.meta.intakeTag),
     firstSeen: days[0],
     lastSeen: days[days.length - 1],
   };
