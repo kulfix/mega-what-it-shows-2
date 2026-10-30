@@ -9,8 +9,6 @@ signature: v1.eyJzdWIiOiIzNjQiLCJhdWQiOiJjaGFsbGVuZ2U6d2hhdC1pdC1zaG93cyIsImlhdC
 
 <script>
   import ProblemTable from '#lib/kb/ProblemTable.svelte';
-  import ProblemCount from '#lib/kb/ProblemCount.svelte';
-  import CauseTable from '#lib/kb/CauseTable.svelte';
   import Callout from '#lib/kb/Callout.svelte';
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
 
@@ -39,19 +37,15 @@ until their own fixes ship.
 2. **By tenant, as the desk counts.** `causeOf` in `causes.ts` looks at the tenant's locale, their booking
    form and the channel the report came in by: a day-first tenant's report through booking-v3's form is
    `hint`, any other way in is `parser`. Intake's tag is a guess from the reporter's browser and is not used.
-3. **One-day moves have a row of their own.** The desk read some reports as a date moved by one day
-   (`desk-notes.json`). A month/day swap does not do that, so they have their own ticket. As the desk counts
-   them, they stay counted where they're filed too.
-
-## The desk's own table
-
-<CauseTable ticket={4471} />
+3. **One-day moves are footnoted where they're filed.** The desk read some reports as a date moved by one day
+   (`desk-notes.json`). As the desk counts them, they stay counted under `parser`, where they are filed. A
+   month/day swap does not move a date by one day, so they have their own ticket as well.
 
 ## The problems
 
 ### `parser`: every date is read month first
 
-Reports: <ProblemCount ticket={4471} problem="parser" />. Ticket: [#1](https://github.com/kulfix/mega-what-it-shows-2/issues/1).
+Ticket: [#1](https://github.com/kulfix/mega-what-it-shows-2/issues/1).
 The shared parser reads dates month first. Every tenant on file writes the day first, so any date whose
 day is 12 or less comes out with day and month swapped: a booking for 7 April lands on 4 July. This is
 what #4471 describes, and its queued fix is the fix for this problem. Most of these reports show the swap
@@ -59,7 +53,7 @@ in their own dates; a few only say the day was wrong, and land here by their ten
 
 ### `hint`: booking-v3 asks for the month first
 
-Reports: <ProblemCount ticket={4471} problem="hint" />. Ticket: [#2](https://github.com/kulfix/mega-what-it-shows-2/issues/2).
+Ticket: [#2](https://github.com/kulfix/mega-what-it-shows-2/issues/2).
 The booking-v3 form prints `MM/DD/YYYY` under its date field, for tenants who write the day first.
 People type what the hint asks; the form reads it the tenant's way, day first. The result looks the same
 as `parser`, but the parser fix does not touch it: the hint has to follow the tenant's locale. Only
@@ -67,7 +61,7 @@ reports sent through the form of a booking-v3 tenant land here.
 
 ### `one-day`: the date moves by one day
 
-Reports: <ProblemCount ticket={4471} problem="one-day" />. Ticket: [#3](https://github.com/kulfix/mega-what-it-shows-2/issues/3).
+Ticket: [#3](https://github.com/kulfix/mega-what-it-shows-2/issues/3).
 
 > Client in Lisbon got Tuesday. Client in Toronto got Monday. Same meeting. We held it twice.
 

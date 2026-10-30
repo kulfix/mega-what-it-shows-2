@@ -1,58 +1,53 @@
 <script lang="ts">
   import reports from '#lib/data/reports-4471.json';
   import notes from '#lib/data/desk-notes.json';
-  import { type Report } from '#lib/kb/causes';
-  import { problemRows, type Problem } from '#lib/kb/problems';
+  import { groupByCause, readAs, uniqueById, type Report } from '#lib/kb/causes';
   import { tenantOf } from '#lib/kb/locales';
 
-  // One row per problem in the ticket, each with the ticket it now has.
-  let { ticket, tickets = {} }: { ticket: number; tickets?: Partial<Record<Problem, string>> } = $props();
+  // The desk's own count, as CauseTable makes it (by cause), with the ticket each problem now has.
+  let { ticket, tickets = {} }: { ticket: number; tickets?: Record<string, string> } = $props();
 
-  const t = $derived(problemRows(reports as Report[], ticket, tenantOf, notes.oneDayMove));
-  const list = (n: Record<string, number>) =>
-    Object.entries(n)
-      .sort((a, b) => b[1] - a[1])
-      .map(([k, v]) => `${k} ×${v}`)
-      .join(' · ');
-  const issue = (url: string) => url.replace(/^https:\/\/github\.com\//, '');
+  const merged = $derived(uniqueById(reports as Report[]).filter((r) => r.mergedInto === ticket));
+  const groups = $derived(groupByCause(merged, tenantOf));
+  const issue = (url: string) => `#${url.split('/').pop()}`;
 </script>
 
 <p class="sum">
-  <strong>{t.merged.length}</strong> reports merged into #{ticket} ·
-  <strong>{t.rows.length}</strong>
-  {t.rows.length === 1 ? 'problem' : 'problems'}
+  <strong>{merged.length}</strong> reports merged into #{ticket} ·
+  <strong>{groups.length}</strong>
+  {groups.length === 1 ? 'cause' : 'causes'} · one ticket per problem
 </p>
 
 <table>
   <thead>
-    <tr><th>problem</th><th>reports</th><th>tenants</th><th>came in by</th><th>tagged as</th><th>seen</th><th>ticket</th></tr>
+    <tr><th>problem</th><th>reports</th><th>tenants</th><th>seen</th><th>ticket</th></tr>
   </thead>
   <tbody>
-    {#each t.rows as r (r.problem)}
-      {@const url = tickets[r.problem]}
-      <tr class:open={!url}>
-        <td><code>{r.problem}</code></td>
-        <td>{r.reports.length}</td>
-        <td>{r.tenants}</td>
-        <td class="small">{list(r.channels)}</td>
-        <td class="small">{list(r.taggedAs)}</td>
-        <td class="small">{r.firstSeen} → {r.lastSeen}</td>
-        <td>{#if url}<a href={url}>{issue(url)}</a>{:else}no ticket yet{/if}</td>
+    {#each groups as g (g.cause)}
+      {@const url = tickets[g.cause]}
+      <tr>
+        <td><code>{g.cause}</code></td>
+        <td><strong>{g.reports.length}</strong></td>
+        <td>{g.tenants}</td>
+        <td>{g.firstSeen} → {g.lastSeen}</td>
+        <td>{#if url}<a href={url}>{issue(url)}</a>{:else}none{/if}</td>
       </tr>
     {/each}
   </tbody>
 </table>
 
-{#each t.rows.filter((r) => r.filedAs) as r (r.problem)}
-  <p class="note">
-    The {r.reports.length} <code>{r.problem}</code> reports are also counted where the desk files them by tenant:
-    {list(r.filedAs ?? {})}.
-  </p>
+{#each groups as g (g.cause)}
+  {@const moved = readAs(g, notes.oneDayMove)}
+  {#if moved}
+    <p class="note">
+      <code>one-day</code>: <strong>{moved}</strong> of the <code>{g.cause}</code> reports read as a one-day move.
+      Counted under <code>{g.cause}</code>, where they are filed; their own ticket is
+      {#if tickets['one-day']}<a href={tickets['one-day']}>{issue(tickets['one-day'])}</a>{:else}none{/if}.
+    </p>
+  {/if}
 {/each}
 
 <style>
   .sum { font-size: 1.1rem; }
-  .small { color: var(--muted); font-size: 0.85em; }
   .note { color: var(--muted); font-size: 0.85em; }
-  .open td { background: var(--warn-bg); }
 </style>

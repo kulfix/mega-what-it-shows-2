@@ -40,7 +40,7 @@ Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
 The kb export above, plus one signed page: what the reports merged into #4471 show.
 
 - The page: `src/routes/kb/incidents/4471-problems/+page.svx`. Its table of problems and tickets comes from
-  `src/lib/kb/problems.ts` and `ProblemTable.svelte`, which count the desk's way (`causes.ts`, `desk-notes.json`).
+  `src/lib/kb/ProblemTable.svelte`, which counts with the desk's own `groupByCause` and `readAs` (`causes.ts`, `desk-notes.json`).
 - The page as the desk sees it: `build/kb/incidents/4471-problems/index.html` (the whole kb is built into `build/`).
 - The tickets: one issue per problem in this repo, linked from the page.
 
