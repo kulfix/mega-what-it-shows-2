@@ -34,3 +34,15 @@ Support desk. Decision records: whoever signed them.
 ---
 
 Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
+
+## This copy
+
+The kb export above, plus one signed page: what the reports merged into #4471 show.
+
+- The page: `src/routes/kb/incidents/4471-problems/+page.svx`. Its table of problems and tickets comes from
+  `src/lib/kb/problems.ts` and `ProblemTable.svelte`, which count the desk's way (`causes.ts`, `desk-notes.json`).
+- The page as the desk sees it: `build/kb/incidents/4471-problems/index.html` (the whole kb is built into `build/`).
+- The tickets: one issue per problem in this repo, linked from the page.
+
+Build with Node 22 and pnpm: `pnpm install && pnpm build` writes `build/`. The export carries only `src/`, so
+`package.json`, `svelte.config.js`, `vite.config.js`, `src/app.html` and `src/routes/+layout.ts` are added to build it.

@@ -1,0 +1,81 @@
+---
+layout: runbook
+title: '#4471 · what the reports show'
+owner: kulfix
+status: open
+reviewed: 2026-10-30
+signature: v1.eyJzdWIiOiIzNjQiLCJhdWQiOiJjaGFsbGVuZ2U6d2hhdC1pdC1zaG93cyIsImlhdCI6MTc5MzM4NjY5OCwiZXhwIjoxNzkzNDczMDk4fQ.EbYTHK1xE7Vfcfedkl4n18skjVQ7LGq0_-hapFLfOnc
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const tickets = {
+    parser: 'https://github.com/kulfix/mega-what-it-shows-2/issues/1',
+    hint: 'https://github.com/kulfix/mega-what-it-shows-2/issues/2',
+    'one-day': 'https://github.com/kulfix/mega-what-it-shows-2/issues/3',
+  };
+</script>
+
+[#4471](/kb/incidents/4471) was merged on subject lines ([decision 0001](/kb/decisions/0001-dedupe-by-subject))
+and marked known: one issue, one fix queued. Read for what they show, its reports hold three problems.
+Each now has a ticket of its own.
+
+<ProblemTable ticket={4471} {tickets} />
+
+<Callout kind="warn">
+The queued fix is the parser fix. It closes the parser ticket only; the hint and one-day reports keep coming
+until their own fixes ship.
+</Callout>
+
+## How each report was placed
+
+1. **One id, one report.** The ticket export comes in pages that overlap, so some reports come twice. Each id
+   counts once.
+2. **By tenant, as the desk counts.** `causeOf` in `causes.ts` looks at the tenant's locale, their booking
+   form and the channel the report came in by: a day-first tenant's report through booking-v3's form is
+   `hint`, any other way in is `parser`. Intake's tag is a guess from the reporter's browser and is not used.
+3. **One-day moves have a row of their own.** The desk read some reports as a date moved by one day
+   (`desk-notes.json`). A month/day swap does not do that, so they have their own ticket. As the desk counts
+   them, they stay counted where they're filed too.
+
+## The desk's own table
+
+<CauseTable ticket={4471} />
+
+## The problems
+
+### `parser`: every date is read month first
+
+The shared parser reads dates month first. Every tenant on file writes the day first, so any date whose
+day is 12 or less comes out with day and month swapped: a booking for 7 April lands on 4 July. This is
+what #4471 describes, and its queued fix is the fix for this problem. Most of these reports show the swap
+in their own dates; a few only say the day was wrong, and land here by their tenant and channel.
+
+### `hint`: booking-v3 asks for the month first
+
+The booking-v3 form prints `MM/DD/YYYY` under its date field, for tenants who write the day first.
+People type what the hint asks; the form reads it the tenant's way, day first. The result looks the same
+as `parser`, but the parser fix does not touch it: the hint has to follow the tenant's locale. Only
+reports sent through the form of a booking-v3 tenant land here.
+
+### One-day moves: the date moves by one day
+
+> Client in Lisbon got Tuesday. Client in Toronto got Monday. Same meeting. We held it twice.
+
+These reports describe a date that is one day off, or an invite that arrived before its booking was
+made, never a swapped month. The cause is not known yet. Only the Lisbon/Toronto report points at time
+zones; a date stored as a moment in time and shown in another zone would do this, but that is a guess
+until someone reproduces it. It needs its own reproduction and its own fix.
+
+## Lessons
+
+- A subject line says how a report feels, not what broke. Different bugs share "wrong day".
+- Before calling a merged ticket known, read what its own table shows: here, a row marked "no ticket of
+  its own" and a footnote.
+- Notes the desk already wrote (here: the one-day moves) are evidence. Read them before merging.
+
+<RenderStamp {signature} />
