@@ -1,6 +1,7 @@
 <script lang="ts">
   import reports from '#lib/data/reports-4471.json';
   import notes from '#lib/data/desk-notes.json';
+  import split from '#lib/data/tickets-4471.json';
   import { groupByCause, readAs, ticketCause, uniqueById, type Report } from '#lib/kb/causes';
   import { tenantOf } from '#lib/kb/locales';
 
@@ -9,6 +10,9 @@
   const merged = $derived(uniqueById(reports as Report[]).filter((r) => r.mergedInto === ticket));
   const groups = $derived(groupByCause(merged, tenantOf));
   const owner = $derived(ticketCause(groups, ticket));
+  // The ticket each cause got when the reports merged into this one were split up, if they were.
+  const ticketOf = $derived((split as Record<string, Record<string, string>>)[String(ticket)] ?? {});
+  const issue = (url: string) => `#${url.split('/').pop()}`;
   const tags = (g: { taggedAs: Record<string, number> }) =>
     Object.entries(g.taggedAs)
       .sort((a, b) => b[1] - a[1])
@@ -24,24 +28,27 @@
 
 <table>
   <thead>
-    <tr><th>cause</th><th>reports</th><th>tagged as</th><th>tenants</th><th>seen</th><th></th></tr>
+    <tr><th>cause</th><th>reports</th><th>tagged as</th><th>tenants</th><th>seen</th><th>ticket</th></tr>
   </thead>
   <tbody>
     {#each groups as g (g.cause)}
-      <tr class:wrong={g.cause !== owner}>
+      {@const own = ticketOf[g.cause]}
+      <tr class:wrong={g.cause !== owner && !own}>
         <td><code>{g.cause}</code></td>
         <td>{g.reports.length}</td>
         <td class="tags">{tags(g)}</td>
         <td>{g.tenants}</td>
         <td>{g.firstSeen} → {g.lastSeen}</td>
-        <td>{g.cause === owner ? `#${ticket}` : 'not this ticket — no ticket of its own'}</td>
+        <td>
+          {#if own}<a href={own}>{issue(own)}</a>{:else}{g.cause === owner ? `#${ticket}` : 'not this ticket — no ticket of its own'}{/if}
+        </td>
       </tr>
     {/each}
   </tbody>
 </table>
 
 {#each groups as g (g.cause)}
-  {@const moved = readAs(g, notes.oneDayMove)}
+  {@const moved = g.cause === 'one-day' ? 0 : readAs(g, notes.oneDayMove)}
   {#if moved}
     <p class="note">{moved} reports read as a one-day move; filed under <code>{g.cause}</code> by tenant.</p>
   {/if}

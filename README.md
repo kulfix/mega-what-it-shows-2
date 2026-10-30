@@ -39,10 +39,12 @@ Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
 
 The kb export above, plus one signed page: what the reports merged into #4471 show.
 
-- The page: `src/routes/kb/incidents/4471-problems/+page.svx`. Its table of problems and tickets comes from
-  `src/lib/kb/ProblemTable.svelte`, which counts with the desk's own `groupByCause` and `readAs` (`causes.ts`, `desk-notes.json`).
+- The page: `src/routes/kb/incidents/4471-problems/+page.svx`. Its table is the kb's own `CauseTable`.
+- Changed in the kb: `causes.ts` gives the one-day moves (`desk-notes.json`) their own cause, `one-day`, so the
+  kb's table counts all three problems; `CauseTable.svelte` shows each cause's ticket from the new
+  `src/lib/data/tickets-4471.json`.
 - The page as the desk sees it: `build/kb/incidents/4471-problems/index.html` (the whole kb is built into `build/`).
 - The tickets: one issue per problem in this repo, linked from the page.
 
-Build with Node 22 and pnpm: `pnpm install && pnpm build` writes `build/`. The export carries only `src/`, so
+Build with Node 22 and npm: `npm ci && npm run build` writes `build/`. The export carries only `src/`, so
 `package.json`, `svelte.config.js`, `vite.config.js`, `src/app.html` and `src/routes/+layout.js` are added to build it.
