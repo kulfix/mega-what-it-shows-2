@@ -37,9 +37,10 @@ until their own fixes ship.
 2. **By tenant, as the desk counts.** `causeOf` in `causes.ts` looks at the tenant's locale, their booking
    form and the channel the report came in by: a day-first tenant's report through booking-v3's form is
    `hint`, any other way in is `parser`. Intake's tag is a guess from the reporter's browser and is not used.
-3. **One-day moves are footnoted where they're filed.** The desk read some reports as a date moved by one day
-   (`desk-notes.json`). As the desk counts them, they stay counted under `parser`, where they are filed. A
-   month/day swap does not move a date by one day, so they have their own ticket as well.
+3. **One-day moves are a problem of their own.** The desk read some reports as a date moved by one day
+   (`desk-notes.json`). A month/day swap does not move a date by one day, so they have their own row and their
+   own ticket, and they are not counted under `parser`. The desk's own CauseTable still files them there by
+   tenant and footnotes them.
 
 ## The problems
 
