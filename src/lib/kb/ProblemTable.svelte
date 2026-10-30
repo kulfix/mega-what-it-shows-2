@@ -22,7 +22,7 @@
     const days = rs.map((r) => r.receivedAt.slice(0, 10)).sort();
     return `${days[0]} → ${days[days.length - 1]}`;
   };
-  const issue = (url: string) => `#${url.split('/').pop()}`;
+  const issue = (url: string) => url.replace('https://github.com/', '');
 </script>
 
 <p class="sum">
@@ -40,7 +40,7 @@
       {@const url = tickets[r.problem]}
       <tr>
         <td><code>{r.problem}</code></td>
-        <td><strong>{r.reports.length}</strong></td>
+        <td>{r.reports.length}</td>
         <td>{tenants(r.reports)}</td>
         <td>{seen(r.reports)}</td>
         <td>{#if url}<a href={url}>{issue(url)}</a>{:else}none{/if}</td>
