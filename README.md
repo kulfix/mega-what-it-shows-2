@@ -39,10 +39,10 @@ Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
 
 The kb export above, plus one signed page: what the reports merged into #4471 show.
 
-- The page: `src/routes/kb/incidents/4471-problems/+page.svx`. Its table is the kb's own `CauseTable`.
-- Changed in the kb: `causes.ts` gives the one-day moves (`desk-notes.json`) their own cause, `one-day`, so the
-  kb's table counts all three problems; `CauseTable.svelte` shows each cause's ticket from the new
-  `src/lib/data/tickets-4471.json`.
+- The page: `src/routes/kb/incidents/4471-problems/+page.svx`. Its table, `src/lib/kb/ProblemTable.svelte`
+  (new), shows all three problems with their counts and tickets, counted with the kb's own `groupByCause`.
+  The one-day moves (`desk-notes.json`) get a row of their own and stay counted under `parser`, as the desk
+  files them. The rest of the kb is as exported.
 - The page as the desk sees it: `build/kb/incidents/4471-problems/index.html` (the whole kb is built into `build/`).
 - The tickets: one issue per problem in this repo, linked from the page.
 
