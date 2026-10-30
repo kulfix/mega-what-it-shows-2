@@ -3,19 +3,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="../../../_app/immutable/entry/start.p-0Zgkkm.js" rel="modulepreload">
+    <link href="../../../_app/immutable/entry/start.KCllU8y5.js" rel="modulepreload">
 		<link href="../../../_app/immutable/chunks/CHsAr61o.js" rel="modulepreload">
-		<link href="../../../_app/immutable/chunks/DRjZwZHL.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/BDQ6-j_2.js" rel="modulepreload">
 		<link href="../../../_app/immutable/chunks/4yth-QJC.js" rel="modulepreload">
-		<link href="../../../_app/immutable/entry/app.sSNx_B1Z.js" rel="modulepreload">
+		<link href="../../../_app/immutable/entry/app.HUPSlbDC.js" rel="modulepreload">
 		<link href="../../../_app/immutable/chunks/ljd_gPXV.js" rel="modulepreload">
 		<link href="../../../_app/immutable/chunks/CbdF3lbi.js" rel="modulepreload">
 		<link href="../../../_app/immutable/chunks/D5kKzAcA.js" rel="modulepreload">
 		<link href="../../../_app/immutable/chunks/CIEhXfPR.js" rel="modulepreload">
 		<link href="../../../_app/immutable/nodes/0.CrOFLrug.js" rel="modulepreload">
 		<link href="../../../_app/immutable/chunks/eAxXFRL1.js" rel="modulepreload">
-		<link href="../../../_app/immutable/nodes/5.BvNWgDLf.js" rel="modulepreload">
-		<link href="../../../_app/immutable/chunks/-2f0YtKy.js" rel="modulepreload">
+		<link href="../../../_app/immutable/nodes/5.lrep1wDz.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/w6ha8Jhm.js" rel="modulepreload">
 		<link href="../../../_app/immutable/chunks/Fba2epY4.js" rel="modulepreload">
 		<link href="../../../_app/immutable/chunks/BJgy3xpf.js" rel="modulepreload">
 		<link href="../../../_app/immutable/chunks/SR8DcoU7.js" rel="modulepreload">
@@ -42,13 +42,15 @@ until their own fixes ship.<!----></aside><!----> <h2>How each report was placed
 counts once.</li> <li><strong>By tenant, as the desk counts.</strong> <code>causeOf</code> in <code>causes.ts</code> looks at the tenant’s locale, their booking
 form and the channel the report came in by: a day-first tenant’s report through booking-v3’s form is <code>hint</code>, any other way in is <code>parser</code>. Intake’s tag is a guess from the reporter’s browser and is not used.</li> <li><strong>One-day moves have a row of their own.</strong> The desk read some reports as a date moved by one day
 (<code>desk-notes.json</code>). A month/day swap does not do that, so they have their own ticket. As the desk counts
-them, they stay counted where they’re filed too.</li></ol> <h2>The desk’s own table</h2> <p class="sum svelte-12oyimm"><strong>412</strong> reports merged into #4471 · <strong>2</strong> causes</p> <table><thead><tr><th>cause</th><th>reports</th><th>tagged as</th><th>tenants</th><th>seen</th><th></th></tr></thead><tbody><!--[--><tr class="svelte-12oyimm"><td class="svelte-12oyimm"><code>parser</code></td><td class="svelte-12oyimm">379</td><td class="tags svelte-12oyimm">parser ×356 · hint ×23</td><td class="svelte-12oyimm">11</td><td class="svelte-12oyimm">2026-04-01 → 2026-10-04</td><td class="svelte-12oyimm">#4471</td></tr><tr class="svelte-12oyimm wrong"><td class="svelte-12oyimm"><code>hint</code></td><td class="svelte-12oyimm">33</td><td class="tags svelte-12oyimm">hint ×18 · parser ×15</td><td class="svelte-12oyimm">3</td><td class="svelte-12oyimm">2026-04-17 → 2026-09-22</td><td class="svelte-12oyimm">not this ticket — no ticket of its own</td></tr><!--]--></tbody></table> <!--[--><!--[0--><p class="note svelte-12oyimm">5 reports read as a one-day move; filed under <code>parser</code> by tenant.</p><!--]--><!--[-1--><!--]--><!--]--><!----> <h2>The problems</h2> <h3><code>parser</code>: every date is read month first</h3> <p>The shared parser reads dates month first. Every tenant on file writes the day first, so any date whose
+them, they stay counted where they’re filed too.</li></ol> <h2>The desk’s own table</h2> <p class="sum svelte-12oyimm"><strong>412</strong> reports merged into #4471 · <strong>2</strong> causes</p> <table><thead><tr><th>cause</th><th>reports</th><th>tagged as</th><th>tenants</th><th>seen</th><th></th></tr></thead><tbody><!--[--><tr class="svelte-12oyimm"><td class="svelte-12oyimm"><code>parser</code></td><td class="svelte-12oyimm">379</td><td class="tags svelte-12oyimm">parser ×356 · hint ×23</td><td class="svelte-12oyimm">11</td><td class="svelte-12oyimm">2026-04-01 → 2026-10-04</td><td class="svelte-12oyimm">#4471</td></tr><tr class="svelte-12oyimm wrong"><td class="svelte-12oyimm"><code>hint</code></td><td class="svelte-12oyimm">33</td><td class="tags svelte-12oyimm">hint ×18 · parser ×15</td><td class="svelte-12oyimm">3</td><td class="svelte-12oyimm">2026-04-17 → 2026-09-22</td><td class="svelte-12oyimm">not this ticket — no ticket of its own</td></tr><!--]--></tbody></table> <!--[--><!--[0--><p class="note svelte-12oyimm">5 reports read as a one-day move; filed under <code>parser</code> by tenant.</p><!--]--><!--[-1--><!--]--><!--]--><!----> <h2>The problems</h2> <h3><code>parser</code>: every date is read month first</h3> <p>Reports: <strong>379</strong><!---->. Ticket: <a href="https://github.com/kulfix/mega-what-it-shows-2/issues/1" rel="nofollow">#1</a>.
+The shared parser reads dates month first. Every tenant on file writes the day first, so any date whose
 day is 12 or less comes out with day and month swapped: a booking for 7 April lands on 4 July. This is
 what #4471 describes, and its queued fix is the fix for this problem. Most of these reports show the swap
-in their own dates; a few only say the day was wrong, and land here by their tenant and channel.</p> <h3><code>hint</code>: booking-v3 asks for the month first</h3> <p>The booking-v3 form prints <code>MM/DD/YYYY</code> under its date field, for tenants who write the day first.
+in their own dates; a few only say the day was wrong, and land here by their tenant and channel.</p> <h3><code>hint</code>: booking-v3 asks for the month first</h3> <p>Reports: <strong>33</strong><!---->. Ticket: <a href="https://github.com/kulfix/mega-what-it-shows-2/issues/2" rel="nofollow">#2</a>.
+The booking-v3 form prints <code>MM/DD/YYYY</code> under its date field, for tenants who write the day first.
 People type what the hint asks; the form reads it the tenant’s way, day first. The result looks the same
 as <code>parser</code>, but the parser fix does not touch it: the hint has to follow the tenant’s locale. Only
-reports sent through the form of a booking-v3 tenant land here.</p> <h3>One-day moves: the date moves by one day</h3> <blockquote><p>Client in Lisbon got Tuesday. Client in Toronto got Monday. Same meeting. We held it twice.</p></blockquote> <p>These reports describe a date that is one day off, or an invite that arrived before its booking was
+reports sent through the form of a booking-v3 tenant land here.</p> <h3><code>one-day</code>: the date moves by one day</h3> <p>Reports: <strong>5</strong><!---->. Ticket: <a href="https://github.com/kulfix/mega-what-it-shows-2/issues/3" rel="nofollow">#3</a>.</p> <blockquote><p>Client in Lisbon got Tuesday. Client in Toronto got Monday. Same meeting. We held it twice.</p></blockquote> <p>These reports describe a date that is one day off, or an invite that arrived before its booking was
 made, never a swapped month. The cause is not known yet. Only the Lisbon/Toronto report points at time
 zones; a date stored as a moment in time and shown in another zone would do this, but that is a guess
 until someone reproduces it. It needs its own reproduction and its own fix.</p> <h2>Lessons</h2> <ul><li>A subject line says how a report feels, not what broke. Different bugs share “wrong day”.</li> <li>Before calling a merged ticket known, read what its own table shows: here, a row marked “no ticket of
@@ -56,15 +58,15 @@ its own” and a footnote.</li> <li>Notes the desk already wrote (here: the one-
 			
 			<script>
 				{
-					__sveltekit_1fgl0q9 = {
+					__sveltekit_1pryol6 = {
 						base: new URL("../../..", location).pathname.slice(0, -1)
 					};
 
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("../../../_app/immutable/entry/start.p-0Zgkkm.js"),
-						import("../../../_app/immutable/entry/app.sSNx_B1Z.js")
+						import("../../../_app/immutable/entry/start.KCllU8y5.js"),
+						import("../../../_app/immutable/entry/app.HUPSlbDC.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],
