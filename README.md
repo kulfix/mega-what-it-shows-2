@@ -45,4 +45,4 @@ The kb export above, plus one signed page: what the reports merged into #4471 sh
 - The tickets: one issue per problem in this repo, linked from the page.
 
 Build with Node 22 and pnpm: `pnpm install && pnpm build` writes `build/`. The export carries only `src/`, so
-`package.json`, `svelte.config.js`, `vite.config.js`, `src/app.html` and `src/routes/+layout.ts` are added to build it.
+`package.json`, `svelte.config.js`, `vite.config.js`, `src/app.html` and `src/routes/+layout.js` are added to build it.
