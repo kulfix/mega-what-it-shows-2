@@ -13,9 +13,9 @@ signature: v1.eyJzdWIiOiIzNjQiLCJhdWQiOiJjaGFsbGVuZ2U6d2hhdC1pdC1zaG93cyIsImlhdC
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
 
   const tickets = {
-    parser: 'https://github.com/kulfix/mega-what-it-shows-2/issues/1',
-    hint: 'https://github.com/kulfix/mega-what-it-shows-2/issues/2',
-    'one-day': 'https://github.com/kulfix/mega-what-it-shows-2/issues/3',
+    parser: 'https://github.com/kulfix/mega-what-it-shows-2/issues/4',
+    hint: 'https://github.com/kulfix/mega-what-it-shows-2/issues/5',
+    'one-day': 'https://github.com/kulfix/mega-what-it-shows-2/issues/6',
   };
 </script>
 
@@ -45,7 +45,7 @@ until their own fixes ship.
 
 ### `parser`: every date is read month first
 
-Ticket: [#1](https://github.com/kulfix/mega-what-it-shows-2/issues/1).
+Ticket: [#4](https://github.com/kulfix/mega-what-it-shows-2/issues/4).
 The shared parser reads dates month first. Every tenant on file writes the day first, so any date whose
 day is 12 or less comes out with day and month swapped: a booking for 7 April lands on 4 July. This is
 what #4471 describes, and its queued fix is the fix for this problem. Most of these reports show the swap
@@ -53,7 +53,7 @@ in their own dates; a few only say the day was wrong, and land here by their ten
 
 ### `hint`: booking-v3 asks for the month first
 
-Ticket: [#2](https://github.com/kulfix/mega-what-it-shows-2/issues/2).
+Ticket: [#5](https://github.com/kulfix/mega-what-it-shows-2/issues/5).
 The booking-v3 form prints `MM/DD/YYYY` under its date field, for tenants who write the day first.
 People type what the hint asks; the form reads it the tenant's way, day first. The result looks the same
 as `parser`, but the parser fix does not touch it: the hint has to follow the tenant's locale. Only
@@ -61,7 +61,7 @@ reports sent through the form of a booking-v3 tenant land here.
 
 ### `one-day`: the date moves by one day
 
-Ticket: [#3](https://github.com/kulfix/mega-what-it-shows-2/issues/3).
+Ticket: [#6](https://github.com/kulfix/mega-what-it-shows-2/issues/6).
 
 > Client in Lisbon got Tuesday. Client in Toronto got Monday. Same meeting. We held it twice.
 
