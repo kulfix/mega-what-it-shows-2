@@ -39,10 +39,9 @@ Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
 
 The kb export above, plus one signed page: what the reports merged into #4471 show.
 
-- The page: `src/routes/kb/incidents/4471-problems/+page.svx`. Its table, `src/lib/kb/ProblemTable.svelte`
-  (new), shows all three problems with their counts and tickets, counted with the kb's own `groupByCause`.
-  The one-day moves (`desk-notes.json`) get a row of their own and stay counted under `parser`, as the desk
-  files them. The rest of the kb is as exported.
+- The page: `src/routes/kb/incidents/4471-problems/+page.svx`. It counts with the desk's own view, the kb's
+  `CauseTable` as exported (parser, hint, and the note on the one-day moves filed under `parser`), and links
+  the ticket for each problem. The rest of the kb is as exported.
 - The page as the desk sees it: `build/kb/incidents/4471-problems/index.html` (the whole kb is built into `build/`).
 - The tickets: one issue per problem in this repo, linked from the page.
 

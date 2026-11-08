@@ -8,22 +8,27 @@ signature: v1.eyJzdWIiOiIzNjQiLCJhdWQiOiJjaGFsbGVuZ2U6d2hhdC1pdC1zaG93cyIsImlhdC
 ---
 
 <script>
-  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
   import Callout from '#lib/kb/Callout.svelte';
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
-
-  const tickets = {
-    parser: 'https://github.com/kulfix/mega-what-it-shows-2/issues/4',
-    hint: 'https://github.com/kulfix/mega-what-it-shows-2/issues/5',
-    'one-day': 'https://github.com/kulfix/mega-what-it-shows-2/issues/6',
-  };
 </script>
 
 [#4471](/kb/incidents/4471) was merged on subject lines ([decision 0001](/kb/decisions/0001-dedupe-by-subject))
 and marked known: one issue, one fix queued. Read for what they show, its reports hold three problems.
-Each now has a ticket of its own.
+Each now has a ticket of its own:
 
-<ProblemTable ticket={4471} {tickets} />
+1. `parser`, every date is read month first: [#4](https://github.com/kulfix/mega-what-it-shows-2/issues/4).
+2. `hint`, booking-v3 asks for the month first: [#5](https://github.com/kulfix/mega-what-it-shows-2/issues/5).
+3. `one-day`, the date moves by one day: [#6](https://github.com/kulfix/mega-what-it-shows-2/issues/6).
+
+## Counted the desk's way
+
+<CauseTable ticket={4471} />
+
+This is the desk's own table, as exported. It places each report by tenant and channel, so it files the
+one-day moves under `parser` and counts them there; the note under it says how many. They stay in the
+`parser` count, and their own ticket, #6, tracks them as well. The row the table marks "no ticket of its
+own" is `hint`: its ticket is now #5. The table counts one report per id.
 
 <Callout kind="warn">
 The queued fix is the parser fix. It closes the parser ticket only; the hint and one-day reports keep coming
@@ -37,9 +42,9 @@ until their own fixes ship.
 2. **By tenant, as the desk counts.** `causeOf` in `causes.ts` looks at the tenant's locale, their booking
    form and the channel the report came in by: a day-first tenant's report through booking-v3's form is
    `hint`, any other way in is `parser`. Intake's tag is a guess from the reporter's browser and is not used.
-3. **One-day moves have their own row and ticket.** The desk read some reports as a date moved by one day
+3. **One-day moves have their own ticket.** The desk read some reports as a date moved by one day
    (`desk-notes.json`). A month/day swap does not move a date by one day, so they are a problem of their own.
-   As the desk counts them, they also stay counted under `parser`, where they are filed.
+   The desk still counts them under `parser`, where they are filed.
 
 ## The problems
 
